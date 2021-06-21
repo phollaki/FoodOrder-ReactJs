@@ -1,0 +1,25 @@
+.amount {
+  display: flex;
+}
+.amount > input {
+  width: 3rem;
+  margin-left: 1rem;
+}
+.button {
+  margin-top: 1rem;
+  background-color: rgb(138, 37, 1);
+  color: white;
+  padding: 0.5rem;
+  width: 7rem;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  box-shadow: 2px 4px 10px -7px rgba(0, 0, 0, 0.75);
+}
+.button:hover {
+  background-color: rgb(173, 47, 2);
+}
+.mealform {
+  text-align: right;
+}
