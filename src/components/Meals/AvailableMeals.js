@@ -1,36 +1,50 @@
+import { useEffect, useState } from "react";
+import useRequest from "../../hooks/use-request";
 import Card from "../UI/Card";
 import styles from "./AvailableMeals.module.css";
 import MealItem from "./MealItem/MealItem";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Wiener Schnitzel",
-    description: "A german speciality",
-    price: 15.49,
-  },
-  {
-    id: "m3",
-    name: "Gulash soup",
-    description: "Hungarian soup with meal and veggies",
-    price: 10.0,
-  },
-  {
-    id: "m4",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-];
-
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((meal) => (
+  const { isLoading, error, sendRequest: fetchTasks } = useRequest();
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    const transformTasks = (mealObj) => {
+      const loadedMeals = [];
+
+      for (const mealKey in mealObj) {
+        loadedMeals.push({
+          id: mealKey,
+          name: mealObj[mealKey].name,
+          description: mealObj[mealKey].description,
+          price: mealObj[mealKey].price,
+        });
+      }
+
+      setMeals(loadedMeals);
+    };
+
+    fetchTasks(
+      { url: "https://temperature-fa4fb.firebaseio.com/meals.json" },
+      transformTasks
+    );
+  }, [fetchTasks]);
+
+  if (isLoading) {
+    return (
+      <section className={styles.loading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
+  if (error) {
+    return (
+      <section className={styles.loading}>
+        <p>{error}</p>
+      </section>
+    );
+  }
+  const mealsList = meals.map((meal) => (
     <MealItem
       id={meal.id}
       key={meal.name}
@@ -42,9 +56,7 @@ const AvailableMeals = () => {
 
   return (
     <section className={styles.meals}>
-      <Card>
-        <ul>{mealsList}</ul>
-      </Card>
+      <Card>{mealsList}</Card>
     </section>
   );
 };

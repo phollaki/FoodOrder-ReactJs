@@ -4,7 +4,7 @@
   border: none;
   background-color: #4d1601;
   color: white;
-  padding: 0.75rem 3rem;
+  padding: 0.35rem 3rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -23,7 +23,7 @@
   margin-right: 0.5rem;
 }
 
-.counter {
+.badge {
   background-color: #b94517;
   padding: 0.25rem 1rem;
   border-radius: 25px;
@@ -34,4 +34,26 @@
 .button:hover .counter,
 .button:active .counter {
   background-color: #92320c;
+}
+
+.bump {
+  animation: bump 300ms ease-out;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.9);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

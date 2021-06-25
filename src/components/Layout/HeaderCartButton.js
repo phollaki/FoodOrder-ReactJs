@@ -1,17 +1,46 @@
-import React, { Fragment } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./HeaderCartButton.module.css";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { ShoppingCart } from "@material-ui/icons";
+import CartContext from "../../store/cart-context";
 
-function HeaderCartButton(props) {
+function HeaderCart(props) {
+  const cartCtx = useContext(CartContext);
+
+  const { items } = cartCtx;
+
+  const [btnIsHighlighted, setbtnIsHighlighted] = useState(false);
+  useEffect(() => {
+    if (items === 0) {
+      return;
+    }
+    setbtnIsHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setbtnIsHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [items]);
+
+  const totalItemInCart = cartCtx.items.reduce((curNumber, item) => {
+    return curNumber + item.amount;
+  }, 0);
+
+  const btnStyles = `${styles.button} ${btnIsHighlighted ? styles.bump : ""} `;
+
   return (
-    <button className={styles.button} onClick={props.onClick}>
+    <button className={btnStyles} onClick={props.onShowCart}>
       <span className={styles.icon}>
-        <ShoppingCartIcon />
+        <ShoppingCart />
       </span>
-      <span className={styles.title}>Your Cart</span>
-      <span className={styles.counter}>3</span>
+      <span>
+        <h3>Your cart</h3>
+      </span>
+      <span className={styles.badge}>{totalItemInCart}</span>
     </button>
   );
 }
 
-export default HeaderCartButton;
+export default HeaderCart;

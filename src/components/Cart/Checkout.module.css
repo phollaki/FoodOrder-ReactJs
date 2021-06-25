@@ -1,0 +1,63 @@
+.userInfo h2 {
+  margin-top: -1rem;
+}
+.userInfo {
+  border: 2px solid #8a2b06;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+.userinfo {
+  font-size: 1.1rem;
+  display: flex;
+  font-weight: bold;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+.userinfo input {
+  margin-left: -1rem;
+  max-width: 10rem;
+}
+
+.actions {
+  text-align: right;
+}
+
+.actions button {
+  margin-top: 2rem;
+  margin-bottom: -1rem;
+  font: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #8a2b06;
+  padding: 0.5rem 2rem;
+  border-radius: 25px;
+  margin-left: 1rem;
+}
+
+.actions button:hover,
+.actions button:active {
+  background-color: #5a1a01;
+  border-color: #5a1a01;
+  color: white;
+}
+
+.actions .button--alt {
+  color: #8a2b06;
+}
+
+.actions .button {
+  background-color: #8a2b06;
+  color: white;
+}
+
+button:disabled {
+  background-color: gray;
+  border: 1px solid rgb(102, 102, 102);
+  color: rgb(53, 52, 52);
+  cursor: not-allowed;
+}
+.error-text {
+  color: red;
+  text-align: center;
+  font-size: 1rem;
+}
