@@ -9,110 +9,117 @@ function Checkout(props) {
   const {
     enteredValue: enteredFirstName,
     isValid: firstNameIsValid,
-    hasError: firstNameError,
+    reset: resetFirstName,
     valueChangeHandler: firstNameChangeHandler,
     inputBlurHandler: firstNameBlurHandler,
   } = useInput((value) => value.trim() !== "");
   const {
     enteredValue: enteredLastName,
     isValid: lastNameIsValid,
-    hasError: lastNameError,
+    reset: resetLastName,
     valueChangeHandler: lastNameChangeHandler,
     inputBlurHandler: lastNameBlurHandler,
   } = useInput((value) => value.trim() !== "");
   const {
     enteredValue: enteredEmail,
     isValid: emailIsValid,
-    hasError: emailError,
+    reset: resetEmail,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
   } = useInput((value) => value.includes("@"));
   const {
     enteredValue: enteredAddress,
     isValid: addressIsValid,
-    hasError: addressError,
+    reset: resetAddress,
     valueChangeHandler: addressChangeHandler,
     inputBlurHandler: addressBlurHandler,
   } = useInput((value) => value.trim() !== "");
 
-  let formIsValid = firstNameIsValid && lastNameIsValid && emailIsValid;
+  let formIsValid =
+    firstNameIsValid && lastNameIsValid && emailIsValid && addressIsValid;
 
-  if (firstNameIsValid && lastNameIsValid && emailIsValid) {
+  if (firstNameIsValid && lastNameIsValid && emailIsValid && addressIsValid) {
     formIsValid = true;
   }
+  const submitHandler = (event) => {
+    event.preventDefault();
+    resetAddress();
+    resetLastName();
+    resetFirstName();
+    resetEmail();
+    props.onSubmitOrder({
+      firstName: enteredFirstName,
+      lastName: enteredLastName,
+      email: enteredEmail,
+      address: enteredAddress,
+    });
+  };
 
   return (
-    <div className={styles.userInfo}>
+    <form onSubmit={submitHandler} className={styles.form}>
       <h2>Your information</h2>
       <div className={styles.userinfo}>
-        <label>First Name</label>
+        <label htmlFor="firstName">First Name</label>
         <input
           type="text"
           id="firstName"
           value={enteredFirstName}
           onChange={firstNameChangeHandler}
           onBlur={firstNameBlurHandler}
-          style={
-            firstNameError
-              ? { backgroundColor: "pink" }
-              : { backgroundColor: "white" }
-          }
         ></input>
       </div>
       <div className={styles.userinfo}>
-        <label>Last Name</label>
+        <label htmlFor="lastName">Last Name</label>
         <input
           type="text"
           id="lastName"
           value={enteredLastName}
           onChange={lastNameChangeHandler}
           onBlur={lastNameBlurHandler}
-          style={
-            lastNameError
-              ? { backgroundColor: "pink" }
-              : { backgroundColor: "white" }
-          }
         ></input>
       </div>
 
       <div className={styles.userinfo}>
-        <label>Email</label>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
           value={enteredEmail}
           onChange={emailChangeHandler}
           onBlur={emailBlurHandler}
-          style={
-            emailError
-              ? { backgroundColor: "pink" }
-              : { backgroundColor: "white" }
-          }
         ></input>
       </div>
 
       <div className={styles.userinfo}>
-        <label>Address</label>
+        <label
+          className={`${styles.userinfo} ${
+            addressIsValid ? "" : styles.invalid
+          }`}
+          htmlFor="address"
+        >
+          Address
+        </label>
         <input
           type="text"
           id="address"
           value={enteredAddress}
           onChange={addressChangeHandler}
           onBlur={addressBlurHandler}
-          style={
-            addressError
-              ? { backgroundColor: "pink" }
-              : { backgroundColor: "white" }
-          }
         ></input>
       </div>
       <div className={styles.actions}>
         <button className={styles.btn} onClick={cancelHandler}>
           Cancel
         </button>
-        <button className={styles.button}>Confirm</button>
+        <button
+          disabled={!formIsValid}
+          className={styles.button}
+          onClick={props.onSubmitOrder}
+        >
+          Confirm
+        </button>
       </div>
-    </div>
+    </form>
   );
 }
 

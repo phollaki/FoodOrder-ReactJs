@@ -5,11 +5,12 @@ import CartContext from "../../store/cart-context";
 import { useContext } from "react";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
-
+import useRequest from "../../hooks/use-request";
+import { TableBody } from "@material-ui/core";
 function Cart(props) {
   const [order, setOrder] = useState(false);
   const cartCtx = useContext(CartContext);
-
+  const { isLoading, error, sendRequest: sendOrder } = useRequest();
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
@@ -28,6 +29,17 @@ function Cart(props) {
     } else {
       setOrder(true);
     }
+  };
+  const submitOrderHandler = (userData) => {
+    sendOrder({
+      url: "https://temperature-fa4fb.firebaseio.com/orders.json",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: {
+        user: userData,
+        orderedItems: cartCtx.items,
+      },
+    });
   };
 
   const cartItems = (
@@ -64,7 +76,12 @@ function Cart(props) {
           )}
         </div>
       )}
-      {order && <Checkout onCheckoutCancel={checkoutCancelHandler} />}
+      {order && (
+        <Checkout
+          onSubmitOrder={submitOrderHandler}
+          onCheckoutCancel={checkoutCancelHandler}
+        />
+      )}
     </Modal>
   );
 }

@@ -1,10 +1,12 @@
-.userInfo h2 {
-  margin-top: -1rem;
-}
-.userInfo {
+.form {
+  margin: 1rem 0;
+  overflow: auto;
   border: 2px solid #8a2b06;
-  padding: 2rem;
-  margin-top: 2rem;
+  padding: 0.8rem;
+  max-height: 18rem;
+}
+.form > h2 {
+  margin-top: -0.5rem;
 }
 .userinfo {
   font-size: 1.1rem;
@@ -49,15 +51,29 @@
   background-color: #8a2b06;
   color: white;
 }
+.userinfo label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  display: block;
+}
 
-button:disabled {
+.button:disabled {
   background-color: gray;
-  border: 1px solid rgb(102, 102, 102);
-  color: rgb(53, 52, 52);
+  border: 1px solid rgb(73, 72, 72);
+  color: rgb(253, 252, 252);
+  cursor: not-allowed;
+}
+.button:disabled:hover {
+  background-color: gray;
+  border: 1px solid rgb(73, 72, 72);
+  color: rgb(253, 252, 252);
   cursor: not-allowed;
 }
 .error-text {
   color: red;
   text-align: center;
   font-size: 1rem;
+}
+.invalid label {
+  color: #ca3e51;
 }
